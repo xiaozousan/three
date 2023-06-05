@@ -15,13 +15,16 @@ const soft = require('./soft.png');
 const colorful = require('./colorful.png');
 const dazzling = require('./dazzling.png');
 const gorgeous = require('./gorgeous.png');
-const tempBg = require('./tempBg.png');
+//const tempBg = require('./tempBg.png');
+const tempBg = require('./tempbg1.png');
 const warmBg = require('./warmBg.png');
 const arrow = require('./arrow.png');
 const colour = require('./colour.png');
 const temp = require('./temp.png');
 const addScene = require('./addScene.png');
-
+const iconRead = require('./iconRead.png');
+const iconAuto = require('./iconAuto.png');
+const bg = require('./bg.png');
 export default {
   button,
   themeImage,
@@ -43,4 +46,7 @@ export default {
   colour,
   temp,
   addScene,
+  iconRead,
+  iconAuto,
+  bg,
 };

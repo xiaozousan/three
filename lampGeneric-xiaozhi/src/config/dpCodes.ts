@@ -8,4 +8,6 @@ export default {
   musicCode: 'music_data',
   countdownCode: 'countdown',
   controlCode: 'control_data',
+  readCode:'read',
+  autoCode:'auto',
 };

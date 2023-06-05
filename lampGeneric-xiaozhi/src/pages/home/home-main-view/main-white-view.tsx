@@ -1,7 +1,7 @@
 import throttle from 'lodash/throttle';
 import React, { useCallback, useRef, useState } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import { Utils, TYSdk } from 'tuya-panel-kit';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Utils, TYSdk, TYText } from 'tuya-panel-kit';
 import Res from '@res';
 import { useSelector } from '@models';
 import { lampPutDpData } from '@api';
@@ -15,9 +15,9 @@ import icons from '../../../res/iconfont';
 import DpCodes from '../../../config/dpCodes';
 import Button from '../../../components/Button';
 
-const { powerCode, countdownCode } = DpCodes;
+const { powerCode, countdownCode, autoCode, readCode } = DpCodes;
 const { convertX: cx, convertY: cy } = Utils.RatioUtils;
-const { isSupportTemp, isSupportBright ,isSupportCountdown} = SupportUtils;
+const { isSupportTemp, isSupportBright, isSupportCountdown } = SupportUtils;
 const { withTheme } = Utils.ThemeUtils;
 const {
   brightCode,
@@ -57,6 +57,8 @@ const MainWhiteView: React.FC<MainWhiteViewProps> = ({
   },
 }) => {
   const power = useSelector(state => state.dpState[powerCode]);
+  const read = useSelector(state => state.dpState[readCode]);
+  const auto = useSelector(state => state.dpState[autoCode]);
   const isSupportWhiteTemp = useRef(isSupportTemp());
   const isSupportWhiteBright = useRef(isSupportBright());
   const circleRef = useRef<View>(null);
@@ -189,6 +191,21 @@ const MainWhiteView: React.FC<MainWhiteViewProps> = ({
     const hsv = calcHSV(temperature || 0, brightness);
     return ColorParser.hsv2rgba(hsv[0], hsv[1] * 10, hsv[2] * 10);
   }, [temperature, brightness]);
+  // three
+  const _handleToggleAuto = useCallback(
+    throttle(() => {
+      lampPutDpData({ [autoCode]: !auto });
+    }, 200),
+    [auto]
+  );
+  const _handleToggleRead = useCallback(
+    throttle(() => {
+      lampPutDpData({ [readCode]: !read });
+    }, 200),
+    [read]
+  );
+
+  // three
 
   return (
     <View style={styles.container}>
@@ -228,8 +245,7 @@ const MainWhiteView: React.FC<MainWhiteViewProps> = ({
         )}
       </View>
       <View style={styles.btnViewbox}>
-        
-        <Button
+        {/* <Button
           accessibilityLabel="HomeScene_BottomView_Power"
           style={styles.btnView}
           size={cx(28)}
@@ -239,7 +255,7 @@ const MainWhiteView: React.FC<MainWhiteViewProps> = ({
             styles.icon,
             { backgroundColor: power ? themeColor : color(themeColor).alpha(0.1).rgbString() },
           ]}
-          onPress={_handleTogglePower}
+          onPress={_handleToggleAuto}
         />
         <Button
           accessibilityLabel="HomeScene_BottomView_Power"
@@ -251,8 +267,16 @@ const MainWhiteView: React.FC<MainWhiteViewProps> = ({
             styles.icon,
             { backgroundColor: power ? themeColor : color(themeColor).alpha(0.1).rgbString() },
           ]}
-          onPress={_handleTogglePower}
-        />
+          onPress={_handleToggleRead}
+        /> */}
+        <TouchableOpacity style={[styles.button,auto&&styles.buttonact]} accessibilityLabel="HomeScene_BottomView_Power" onPress={_handleToggleAuto}>  
+          <Image source={Res.iconAuto} style={{ width: cx(28), height: cx(39) }} />
+          <TYText style={styles.buttonText}>自动模式</TYText>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button,read&&styles.buttonact]} accessibilityLabel="HomeScene_BottomView_Power" onPress={_handleToggleRead}>
+          <Image source={Res.iconRead} style={{ width: cx(28), height: cx(39) }} />
+          <TYText style={styles.buttonText}>阅读模式</TYText>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -271,26 +295,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  btnViewbox:{
-    width:cx(200),
+  btnViewbox: {
+    width: cx(375),
     alignItems: 'center',
-    flexDirection:'row',
-    justifyContent: 'space-between',
-
+    flexDirection: 'row',
+    // justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
   },
-  btnView: {
-    // flex: 1,
+  // btnView: {
+  //   // flex: 1,
+  //   alignItems: 'center',
+  //   flexDirection: 'row',
+  //   justifyContent: 'flex-start',
+  // },
+  button: {
+    flexDirection: 'row',
     alignItems: 'center',
-    flexDirection:'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-evenly',
+    width: cx(100),
+    height: cx(50),
+    borderRadius: 10,
+    backgroundColor: 'blue',
   },
-  icon: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: cx(54),
-    height: cx(54),
-    borderRadius: cx(27),
+  buttonact:{
+    backgroundColor: 'white',
   },
+  buttonText: {
+    color: 'blue',
+    fontSize: 16,
+  },
+  // icon: {
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   width: cx(54),
+  //   height: cx(54),
+  //   borderRadius: cx(27),
+  // },
   controlView: {
     height: cy(120),
     alignSelf: 'stretch',
