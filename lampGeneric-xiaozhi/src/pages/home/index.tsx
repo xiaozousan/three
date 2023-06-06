@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ImageBackground } from 'react-native';
 import { Utils } from 'tuya-panel-kit';
 import { useSelector } from '@models';
 import HomeMainView from './home-main-view';
@@ -14,16 +14,20 @@ const Home: React.FC = () => {
   const power = useSelector(state => state.dpState[powerCode]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.content}>
-        {power ? (
-          <HomeMainView />
-        ) : (
-          <Image style={styles.image} source={Res.themeImage} resizeMode="contain" />
-        )}
+    <ImageBackground source={Res.bg} style={styles.bg}>
+      <View style={{ flex: 1 }}>
+        <ImageBackground source={Res.bg} style={styles.bg}>
+          <View style={styles.content}>
+            {power ? (
+              <HomeMainView />
+            ) : (
+              <Image style={styles.image} source={Res.themeImage} resizeMode="contain" />
+            )}
+          </View>
+          <HomeBottomView />
+        </ImageBackground>
       </View>
-      <HomeBottomView />
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -38,6 +42,10 @@ const styles = StyleSheet.create({
     width: cx(200),
     height: cx(200),
     opacity: 0.8,
+  },
+  bg: {
+    width: cx(375),
+    flex: 1,
   },
 });
 

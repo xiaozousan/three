@@ -147,12 +147,6 @@ const styles = StyleSheet.create({
     paddingBottom: isIphoneX ? 20 : 0,
   },
 
-  textView: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
   btnView: {
     // flex: 1,
     alignItems: 'center',
@@ -167,10 +161,6 @@ const styles = StyleSheet.create({
     borderRadius: cx(27),
   },
 
-  text: {
-    backgroundColor: 'transparent',
-    fontSize: cx(14),
-  },
 });
 
 export default withTheme(HomeBottomView);

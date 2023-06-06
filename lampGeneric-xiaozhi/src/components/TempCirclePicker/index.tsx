@@ -48,7 +48,7 @@ export default class TempCirclePicker extends React.Component<TempCirclePickerPr
     touchThumbSize: cx(40),
     offsetAngle: 45,
     innerRadius: cx(88),
-    outerRadius: cx(120),
+    outerRadius: cx(12),
     wrapperStyle: null,
     stopColors: [],
     thumbStyle: null,

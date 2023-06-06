@@ -5,7 +5,7 @@ const themeImage = require('./themeImage.png');
 const background = require('./bg.png');
 const led = require('./iconLamp.png');
 //three
-const thumbBg = require('./thumb.png');
+const thumbBg = require('./thumb1.png');
 const wave = require('./wave.png');
 const night = require('./night.png');
 const read = require('./read.png');

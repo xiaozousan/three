@@ -1,6 +1,6 @@
 import throttle from 'lodash/throttle';
 import React, { useCallback, useRef, useState } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { Utils, TYSdk, TYText } from 'tuya-panel-kit';
 import Res from '@res';
 import { useSelector } from '@models';
@@ -27,10 +27,10 @@ const {
 } = DpCodes;
 const TYDevice = TYSdk.device;
 
-const LED_SIZE = Math.min(110, cx(110));
+const LED_SIZE = Math.min(150, cx(150));
 const TEMP_RADIUS = Math.min(cy(135), cx(135));
-const TEMP_INNER_RADIUS = Math.min(cy(76), cx(76));
-const THUMB_SIZE = Math.min(cy(79), cx(79));
+const TEMP_INNER_RADIUS = Math.min(cy(110), cx(110));
+const THUMB_SIZE = Math.min(cy(50), cx(50));
 
 const mapTempToKelvin = (v: number) => {
   const kelvin = calcPosition(2500, 9000, v / 1000);
@@ -206,7 +206,6 @@ const MainWhiteView: React.FC<MainWhiteViewProps> = ({
   );
 
   // three
-
   return (
     <View style={styles.container}>
       <View style={styles.displayView}>
@@ -214,7 +213,7 @@ const MainWhiteView: React.FC<MainWhiteViewProps> = ({
           value={temperature}
           outerRadius={TEMP_RADIUS}
           innerRadius={TEMP_INNER_RADIUS}
-          offsetAngle={44}
+          offsetAngle={40}
           thumbSize={THUMB_SIZE}
           disabled={!isSupportWhiteTemp.current}
           showThumb={isSupportWhiteTemp.current}
@@ -269,13 +268,24 @@ const MainWhiteView: React.FC<MainWhiteViewProps> = ({
           ]}
           onPress={_handleToggleRead}
         /> */}
-        <TouchableOpacity style={[styles.button,auto&&styles.buttonact]} accessibilityLabel="HomeScene_BottomView_Power" onPress={_handleToggleAuto}>  
-          <Image source={Res.iconAuto} style={{ width: cx(28), height: cx(39) }} />
-          <TYText style={styles.buttonText}>自动模式</TYText>
+        <TouchableOpacity
+          style={[styles.button, auto && styles.buttonact, !auto && styles.buttonact2]}
+          accessibilityLabel="HomeScene_BottomView_Power"
+          onPress={_handleToggleAuto}
+        >
+          <Image
+            source={Res.iconAuto}
+            style={{ width: cx(25), height: cx(30), tintColor: '#132157' }}
+          />
+          <TYText style={[styles.buttonText, !auto && styles.buttonText2]}>自动模式</TYText>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button,read&&styles.buttonact]} accessibilityLabel="HomeScene_BottomView_Power" onPress={_handleToggleRead}>
-          <Image source={Res.iconRead} style={{ width: cx(28), height: cx(39) }} />
-          <TYText style={styles.buttonText}>阅读模式</TYText>
+        <TouchableOpacity
+          style={[styles.button, read && styles.buttonact, !read && styles.buttonact2]}
+          accessibilityLabel="HomeScene_BottomView_Power"
+          onPress={_handleToggleRead}
+        >
+          <Image source={Res.iconRead} style={{ width: cx(25), height: cx(30) }} />
+          <TYText style={[styles.buttonText, !auto && styles.buttonText2]}>阅读模式</TYText>
         </TouchableOpacity>
       </View>
     </View>
@@ -312,16 +322,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    width: cx(100),
+    width: cx(110),
     height: cx(50),
     borderRadius: 10,
-    backgroundColor: 'blue',
+    backgroundColor: 'transparent',
   },
-  buttonact:{
+  buttonact: {
     backgroundColor: 'white',
   },
+  buttonact2: {
+    borderWidth: cx(1),
+    borderColor: '#4d5d8e',
+  },
   buttonText: {
-    color: 'blue',
+    color: '#525c84',
+    fontSize: 16,
+  },
+  buttonText2: {
+    color: '#475685',
     fontSize: 16,
   },
   // icon: {
