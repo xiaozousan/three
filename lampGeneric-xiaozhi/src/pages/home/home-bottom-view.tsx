@@ -74,7 +74,7 @@ const HomeBottomView: React.FC<HomeBottomViewProps> = ({
   }, [countdown]);
   return (
     <View style={styles.container}>
-      <View style={[styles.content, { backgroundColor: color(fontColor).alpha(0.06).rgbString() }]}>
+      <View style={styles.content}>
         {/* {isSupportCountdown() ? (
           <TouchableOpacity
             accessibilityLabel="HomeScene_BottomView_Countdown"

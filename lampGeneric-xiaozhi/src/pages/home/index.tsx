@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Image, ImageBackground } from 'react-native';
-import { Utils } from 'tuya-panel-kit';
+import { Utils,TopBar,TYSdk } from 'tuya-panel-kit';
 import { useSelector } from '@models';
 import HomeMainView from './home-main-view';
 import HomeBottomView from './home-bottom-view';
@@ -15,17 +15,28 @@ const Home: React.FC = () => {
 
   return (
     <ImageBackground source={Res.bg} style={styles.bg}>
+      <TopBar
+        background="transparent"
+        title={TYSdk.devInfo.name}
+        color="white"
+        actions={[
+          {
+            name: 'pen',
+            color: 'white',
+            onPress: () => TYSdk.native.showDeviceMenu(),
+          },
+        ]}
+        onBack={TYSdk.mobile.back}
+      />
       <View style={{ flex: 1 }}>
-        <ImageBackground source={Res.bg} style={styles.bg}>
-          <View style={styles.content}>
-            {power ? (
-              <HomeMainView />
-            ) : (
-              <Image style={styles.image} source={Res.themeImage} resizeMode="contain" />
-            )}
-          </View>
-          <HomeBottomView />
-        </ImageBackground>
+        <View style={styles.content}>
+          {power ? (
+            <HomeMainView />
+          ) : (
+            <Image style={styles.image} source={Res.themeImage} resizeMode="contain" />
+          )}
+        </View>
+        <HomeBottomView />
       </View>
     </ImageBackground>
   );

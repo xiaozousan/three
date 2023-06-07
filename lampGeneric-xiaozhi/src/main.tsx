@@ -40,6 +40,7 @@ class MainLayout extends NavigatorLayout<Props> {
     return {
       ...routeProps,
       ...route,
+      hideTopbar:true,
       renderStatusBar: () => <StatusBar barStyle="light-content" />,
     };
   }
